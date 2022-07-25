@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import wormLogo from './assets/images/worm-svgrepo-com.svg';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { BasicMap } from './components/BasicMap';
 
-function App() {
+export default function App() {
+  const [showMap, setShowMap] = useState(false);
+
+  const toggleShowMap = () => {
+    setShowMap(!showMap);
+  };
+
   return (
+    <ErrorBoundary>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+      <div>
+        <button className='button' onClick={()=> toggleShowMap()}>{ showMap ? 'Hide Map' : 'Show Map'}</button>
+      </div>
 
-export default App;
+    {!showMap &&
+    <header className="App-header">
+      <img src={wormLogo} className="App-logo" alt="spinning worm logo" />
+      <p>
+        Click the button above to show a map.
+      </p>
+    </header>
+    }
+    <main>
+       <BasicMap />
+    </main>
+    </div>
+    </ErrorBoundary>
+    )
+}
