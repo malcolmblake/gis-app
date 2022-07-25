@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "GIS Boundary App Example",
+  "short_name": "GIS Boundary",
   "icons": [
     {
       "src": "favicon.ico",
