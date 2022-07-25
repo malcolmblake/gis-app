@@ -1,6 +1,6 @@
 # gis-app
 
-This is a basic sample app showing the use of react-mapbox-gl.
+This is a basic sample app showing the use of `react-mapbox-gl` in a React app.
 
 ## TL;DR
 
@@ -27,7 +27,7 @@ This App was created with the `create-react-app` generic starter template. The o
 
 The App has a BFF style API which is either in the same project as this or on it's own. I prefer 12 factor style apps so I've split up the API from the App.
 
-### Links:
+## Links:
 
 - [docs.mapbox.com](https://docs.mapbox.com/)
 - [react-testing-library](https://testing-library.com/docs/react-testing-library/intro)
