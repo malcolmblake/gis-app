@@ -1,5 +1,5 @@
-import { useState } from "react";
-import ReactMapboxGl, { Layer, Feature, MapContext, ScaleControl, ZoomControl } from "react-mapbox-gl";
+import { useEffect, useState } from "react";
+import ReactMapboxGl, { Layer, Feature, ScaleControl, ZoomControl } from "react-mapbox-gl";
 import { cairnsData } from "../assets/data/cairns.geojson.js";
 import './BasicMap.css';
 
@@ -20,15 +20,19 @@ export function ReactMapBoxGL(mapData) {
 
   const [lng, setLng] = useState(145.68300247192383)
   const [lat, setLat] = useState(-16.954023059866074)
-  const [zoom, setZoom] = useState([9])
+  const [zoom, setZoom] = useState([11])
 
   const defaultCoordinates = [lng, lat];
   const polygonCoordinates = mapData?.mapOutline || cairnsData.coordinates;
-  const randomPoints = mapData?.points;
+  const randomPoints = mapData?.randomPoints;
 
   console.log('defaultCoordinates', defaultCoordinates);
   console.log('polygonCoordinates', polygonCoordinates);
   console.log('randomPoints', randomPoints);
+
+  useEffect(() => {
+    console.log('mapData updated', mapData)
+  }, [mapData])
 
 const lineLayout = {
   'line-cap': 'round' ,
@@ -47,29 +51,30 @@ const polygonPaint = {
 
 function handleOnMove(data) {
   console.log(data);
+
 }
 
   return (
     <>
-    <div className="sidebar"> Longitude: {lng} | Latitude: {lat} | Zoom: {zoom} </div>
+    <DisplayZoomPlusCoordinates lng={lng} lat={lat} zoom={zoom} />
     <Map
       style={"mapbox://styles/mapbox/streets-v11"}
       center={[lng, lat]}
       zoom={zoom}
       containerStyle={{
         flex: 1,
-        height: "100vh",
+        height: "90vh",
         width: "100vw"
       }}
       onMove={(data) => handleOnMove(data)}
     >
+
             <ScaleControl/>
             <ZoomControl/>
       <Layer type={"fill"} paint={polygonPaint}>
         <Feature coordinates={polygonCoordinates} />
       </Layer>
       <PolygonMap polygonCoordinates={polygonCoordinates} paintColour={polygonPaint} />
-
         { mapData && mapData?.randomPoints?.map((point) => {
           <Layer type={"marker"} paint={{
             "fill-color": '#aaafff',
@@ -84,6 +89,11 @@ function handleOnMove(data) {
   )
 }
 
+
+export function DisplayZoomPlusCoordinates({lng, lat, zoom}) {
+
+  return (<div className="sidebar"> Longitude: {lng.toFixed(5)} | Latitude: {lat.toFixed(5)} | Zoom: {zoom} </div>);
+}
 
 export function PolygonMap({ polygonCoordinates, paintColour }) {
 

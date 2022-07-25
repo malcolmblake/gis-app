@@ -3,18 +3,22 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import '@testing-library/jest-dom';
-import {BasicMap} from './BasicMap';
+import {BasicMap} from './BasicMap.js';
 
 // declare which API requests to mock
 const server = setupServer(
-  // capture "GET /greeting" requests
+  // capture "GET /" requests
   rest.get('/', (req, res, ctx) => {
     // respond using a mocked JSON body
-    return res(ctx.json({ greeting: 'hello there' }))
+    return res(ctx.json({
+      body: {
+        boundingBox: [],
+        mapOutline: [],
+        randomPoints: []
+    }
+  }))
   }),
 )
-
-
 
 // establish API mocking before all tests
 beforeAll(() => server.listen())
@@ -26,7 +30,7 @@ afterAll(() => server.close())
 
 // ...
 
-describe('BasicMap tests', () => {
+describe('BasicMap.js ', () => {
 
   test('handles server error', async () => {
     server.use(
@@ -40,7 +44,7 @@ describe('BasicMap tests', () => {
 
   test('loads and displays Map', async () => {
 
-    jest.mock('mapbox-gl', () => ({
+    jest.mock('react-mapbox-gl', () => ({
       __esModule: true,
       default: () => function () {
         return <span>Mock map</span>;

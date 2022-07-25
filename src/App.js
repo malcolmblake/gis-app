@@ -15,7 +15,7 @@ export default function App() {
     <ErrorBoundary>
     <div className="App">
       <div>
-        <button className='button' onClick={()=> toggleShowMap()}>{showMap ? 'Hide Map' : 'Show Map'}</button>
+        <button className='button' onClick={()=> toggleShowMap()}>{ showMap ? 'Hide Map' : 'Show Map'}</button>
       </div>
 
     {!showMap &&
